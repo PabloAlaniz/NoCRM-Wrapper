@@ -2,8 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="nocrm_wrapper",
-    version="0.1.0",
-    package_dir={"": "src"},
+    version="0.1.1",
     packages=find_packages(),
     install_requires=[
         "flask>=2.3.3",
