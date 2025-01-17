@@ -102,3 +102,11 @@ class LeadService(BaseService[Lead]):
 
         if lead.expected_closing_date and lead.expected_closing_date < datetime.now():
             raise NoCRMValidationError("Expected closing date cannot be in the past")
+
+    async def list(self):
+        """
+        Lista todos los leads disponibles.
+        Returns:
+            List[Lead]: Lista de leads encontrados
+        """
+        return await self.repository.list()
