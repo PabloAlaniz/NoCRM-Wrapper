@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime
-from src.models import Lead
+from nocrm_wrapper.models import Lead
 
 @pytest.mark.integration
 @pytest.mark.asyncio

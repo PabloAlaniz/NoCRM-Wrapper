@@ -4,7 +4,7 @@ setup(
     name="nocrm_wrapper",
     version="0.1.0",
     package_dir={"": "src"},
-    packages=find_packages(where="src"),
+    packages=find_packages(),
     install_requires=[
         "flask>=2.3.3",
         "flask-cors>=4.0.0",

@@ -1,8 +1,8 @@
 import pytest
 import os
 from dotenv import load_dotenv
-from src.config import NoCRMConfig
-from src.repositories import LeadRepository
+from nocrm_wrapper.config import NoCRMConfig
+from nocrm_wrapper.repositories import LeadRepository
 
 
 @pytest.fixture(scope="session")

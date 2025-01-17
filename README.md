@@ -122,9 +122,10 @@ cp .env.example .env
 ### Como Biblioteca Python
 
 1. **Configuración Básica**:
+
 ```python
-from src.config import NoCRMConfig
-from src.nocrm_client import NoCRMClient
+from nocrm_wrapper.config import NoCRMConfig
+from nocrm_wrapper.nocrm_client import NoCRMClient
 
 config = NoCRMConfig(
     api_key="tu_api_key",
