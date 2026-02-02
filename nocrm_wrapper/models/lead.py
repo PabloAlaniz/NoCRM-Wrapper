@@ -6,7 +6,32 @@ from datetime import datetime
 @dataclass
 class Lead:
     """
-    Representa un lead en NoCRM
+    Representa un lead (oportunidad de venta) en NoCRM.
+    
+    Esta clase encapsula toda la información de un lead, incluyendo datos básicos
+    de contacto, estado en el pipeline de ventas, y metadatos de seguimiento.
+    
+    Attributes:
+        title: Título descriptivo del lead (requerido, mínimo 3 caracteres)
+        status: Estado actual del lead en el pipeline
+        contact_name: Nombre del contacto asociado al lead
+        description: Descripción detallada del lead o notas adicionales
+        amount: Monto estimado de la oportunidad (debe ser >= 0)
+        probability: Probabilidad de cierre (0-100%)
+        expected_closing_date: Fecha estimada de cierre
+        custom_fields: Campos personalizados adicionales definidos en NoCRM
+        id: ID único del lead en NoCRM (asignado por el sistema)
+        created_at: Fecha/hora de creación del lead
+        updated_at: Fecha/hora de última actualización
+    
+    Example:
+        >>> lead = Lead(
+        ...     title="Implementación CRM",
+        ...     status="new",
+        ...     contact_name="Juan Pérez",
+        ...     amount=50000.0,
+        ...     probability=75
+        ... )
     """
     title: str
     status: str
@@ -22,7 +47,22 @@ class Lead:
 
     @classmethod
     def from_dict(cls, data: Dict) -> 'Lead':
-        """Crea una instancia de Lead desde un diccionario"""
+        """
+        Crea una instancia de Lead desde un diccionario (deserialización).
+        
+        Convierte automáticamente strings de fechas ISO a objetos datetime.
+        Filtra campos que no estén definidos en el modelo.
+        
+        Args:
+            data: Diccionario con datos del lead (típicamente de respuesta API)
+        
+        Returns:
+            Lead: Instancia de Lead con los datos deserializados
+        
+        Example:
+            >>> data = {"title": "Nuevo Lead", "status": "new", "amount": 1000.0}
+            >>> lead = Lead.from_dict(data)
+        """
         # Convertir fechas si existen
         if 'expected_closing_date' in data and data['expected_closing_date']:
             data['expected_closing_date'] = datetime.fromisoformat(data['expected_closing_date'].replace('Z', '+00:00'))
@@ -38,7 +78,21 @@ class Lead:
         return cls(**filtered_data)
 
     def to_dict(self) -> Dict:
-        """Convierte la instancia a un diccionario"""
+        """
+        Convierte la instancia a un diccionario (serialización).
+        
+        Convierte objetos datetime a formato ISO. Excluye campos None y
+        campos de solo lectura (id, created_at, updated_at) para operaciones
+        de creación/actualización.
+        
+        Returns:
+            Dict: Diccionario con los datos del lead listo para enviar a la API
+        
+        Example:
+            >>> lead = Lead(title="Test", status="new")
+            >>> data = lead.to_dict()
+            >>> # data será {'title': 'Test', 'status': 'new'}
+        """
         data = asdict(self)
 
         # Convertir fechas a ISO format
