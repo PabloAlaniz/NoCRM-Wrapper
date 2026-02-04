@@ -20,7 +20,10 @@ def config():
 
 @pytest.fixture(scope="session")
 def user_id():
-    return int(os.getenv("NOCRM_USER_ID"))
+    value = os.getenv("NOCRM_USER_ID")
+    if not value:
+        pytest.skip("NOCRM_USER_ID no seteado (tests de integración)")
+    return int(value)
 
 
 @pytest.fixture
